@@ -23,3 +23,17 @@ Vault из задания 10 дополнен вторым токеновым х
 ## Скрипты
 
 `01-init-vault.cjs` создаёт хранилища и привязывает пул, `02-deposit.cjs` вносит Mint A, `03-quote-swap.cjs` симулирует обмен, `04-execute-swap.cjs` проводит обмен, а `05-check-slippage.cjs` проверяет отказ. Скрипты используют IDL из `anchor build`, локальный кошелёк Solana CLI и переменную `SOLANA_RPC_URL` с адресом Helius Devnet из локального `.env`.
+
+## Скриншоты
+
+### Развёртывание в Devnet
+
+![Развёртывание программы](screenshots/week12-deploy.png)
+
+### Депозит в vault
+
+![Депозит и комиссия](screenshots/week12-deposit.png)
+
+### Успешный обмен через Raydium
+
+![Балансы и цена пула после обмена](screenshots/week12-swap.jpeg)
