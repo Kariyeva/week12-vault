@@ -51,10 +51,10 @@
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.8.0.tgz#cee43d801fcef9644b11b8194857695acd5f815a"
   integrity sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==
 
-"@raydium-io/raydium-sdk-v2@^0.2.41-alpha":
-  version "0.2.41-alpha"
-  resolved "https://registry.yarnpkg.com/@raydium-io/raydium-sdk-v2/-/raydium-sdk-v2-0.2.41-alpha.tgz#38e665342b071fa5bb03f6b80f43890505259326"
-  integrity sha512-RoeT9/R43RXQaQu1UyM2bPBYbFk0Vymt51EC/7XzFvS3Tr1LGp0N6wgpykGHKheUybF8nhJuZMog4e6wKfFNCw==
+"@raydium-io/raydium-sdk-v2@0.2.75-alpha":
+  version "0.2.75-alpha"
+  resolved "https://registry.yarnpkg.com/@raydium-io/raydium-sdk-v2/-/raydium-sdk-v2-0.2.75-alpha.tgz#0f49eb6728d56a06afeeb55fd2beb6eac9d103a2"
+  integrity sha512-gqrpHT181p7g7G8xxuFneW7HR9vP8rIj5PUTJmywWHLNBMii1lwry7RRtsHqA25oW5xwxcdjLKkK9//ZtkAqgw==
   dependencies:
     "@solana/buffer-layout" "^4.0.1"
     "@solana/spl-token" "^0.4.8"
@@ -64,7 +64,9 @@
     bn.js "^5.2.1"
     bs58 "^6.0.0"
     dayjs "^1.11.5"
+    decimal.js "^10.4.2"
     decimal.js-light "^2.5.1"
+    js-sha256 "^0.11.1"
     jsonfile "^6.1.0"
     lodash "^4.17.21"
     toformat "^2.0.0"
@@ -596,7 +598,12 @@ decimal.js-light@^2.5.1:
   resolved "https://registry.yarnpkg.com/decimal.js-light/-/decimal.js-light-2.5.1.tgz#134fd32508f19e208f4fb2f8dac0d2626a867934"
   integrity sha512-qIMFpTMZmny+MMIitAB6D7iVPEorVw6YQRWkvarTkT4tBeSLLiHzcwj6q0MmYSFCiVpiqPJTJEYIrpcPzVEIvg==
 
-decimal.js@^10.6.0:
+decimal.js@10.4.3:
+  version "10.4.3"
+  resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.4.3.tgz#1044092884d245d1b7f65725fa4ad4c6f781cc23"
+  integrity sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==
+
+decimal.js@^10.4.2:
   version "10.6.0"
   resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.6.0.tgz#e649a43e3ab953a72192ff5983865e509f37ed9a"
   integrity sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==
@@ -944,6 +951,11 @@ jayson@^4.1.1:
     stream-json "^1.9.1"
     uuid "^8.3.2"
     ws "^7.5.10"
+
+js-sha256@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.11.1.tgz#712262e8fc9569d6f7f6eea72c0d8e5ccc7c976c"
+  integrity sha512-o6WSo/LUvY2uC4j7mO50a2ms7E/EAdbP0swigLV+nzHKTTaYnaLIWJ02VdXrsJX0vGedDESQnLsOekr94ryfjg==
 
 js-yaml@^4.1.0:
   version "4.1.1"

@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-simple_vault = "EYvZXmBTwkJJeFpkjJMczbqTRH2moFcvZzAKeAEpsLoL"
+simple_vault = "7Uk6iKLVg1JELBsXuqwHMzfu87QzzpUsGYW8VSaoYa8f"
 
 [programs.localnet]
 simple_vault = "EbojNUfh9Jk6dyZaaQAJWofbdnkvdxfQbeAPq6iWoHAu"

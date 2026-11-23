@@ -1,11 +1,27 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Burn, Mint, MintTo, Token, TokenAccount, Transfer};
 
-declare_id!("EYvZXmBTwkJJeFpkjJMczbqTRH2moFcvZzAKeAEpsLoL");
+declare_id!("7Uk6iKLVg1JELBsXuqwHMzfu87QzzpUsGYW8VSaoYa8f");
+
+mod swap;
+pub use swap::*;
 
 #[program]
 pub mod simple_vault {
     use super::*;
+
+    pub fn initialize_swap(ctx: Context<InitializeSwap>) -> Result<()> {
+        swap::initialize(ctx)
+    }
+
+    pub fn swap_tokens<'a, 'b, 'c: 'info, 'info>(
+        ctx: Context<'a, 'b, 'c, 'info, SwapTokens<'info>>,
+        amount_in: u64,
+        minimum_out: u64,
+        to_second: bool,
+    ) -> Result<()> {
+        swap::execute_swap(ctx, amount_in, minimum_out, to_second)
+    }
 
     /// Создать vault для конкретного SPL-токена.
     /// Создаёт: VaultState PDA, vault_token_account PDA, share_mint PDA.
@@ -20,6 +36,7 @@ pub mod simple_vault {
             .checked_pow(ctx.accounts.token_mint.decimals as u32)
             .ok_or(VaultError::MathOverflow)?;
         vault.paused = false;
+        vault.swap_active = false;
         vault.total_tokens = 0;
         vault.total_shares = 0;
         vault.bump = ctx.bumps.vault_state;
@@ -53,6 +70,7 @@ pub mod simple_vault {
 
     /// Сжечь shares пользователя и вернуть его долю токенов.
     pub fn withdraw(ctx: Context<Withdraw>, shares: u64) -> Result<()> {
+        require!(!ctx.accounts.vault_state.swap_active, VaultError::StrategyActive);
         require!(shares > 0, VaultError::ZeroAmount);
 
         let vault = &ctx.accounts.vault_state;
@@ -125,6 +143,7 @@ pub mod simple_vault {
     }
 
     pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
+        require!(!ctx.accounts.vault_state.swap_active, VaultError::StrategyActive);
         require!(amount > 0, VaultError::ZeroAmount);
 
         let vault = &ctx.accounts.vault_state;
@@ -447,13 +466,14 @@ pub struct VaultState {
     pub fee_wallet: Pubkey,          // счёт комиссии
     pub min_deposit: u64,               // один токен в минимальных единицах
     pub paused: bool,
+    pub swap_active: bool,
     pub total_tokens: u64,           // 8  — всего токенов в vault
     pub total_shares: u64,           // 8  — всего выпущено shares
     pub bump: u8,                    // 1
 }
 
 impl VaultState {
-    pub const LEN: usize = 8 + 32 + 32 + 32 + 32 + 32 + 8 + 1 + 8 + 8 + 1;
+    pub const LEN: usize = 8 + 32 + 32 + 32 + 32 + 32 + 8 + 1 + 1 + 8 + 8 + 1;
 }
 
 /// Карточка пользователя в vault.
@@ -477,6 +497,16 @@ impl UserCard {
 
 #[error_code]
 pub enum VaultError {
+    #[msg("Convert the second token back before deposits or withdrawals")]
+    StrategyActive,
+    #[msg("Pool does not match the vault token pair")]
+    InvalidSwapPool,
+    #[msg("Invalid swap account")]
+    InvalidSwapAccount,
+    #[msg("Received less than the required minimum")]
+    SlippageExceeded,
+    #[msg("The entire input amount was not exchanged")]
+    IncompleteSwap,
     #[msg("Amount must be greater than zero")]
     ZeroAmount,
     #[msg("Shares would be zero - deposit too small")]
