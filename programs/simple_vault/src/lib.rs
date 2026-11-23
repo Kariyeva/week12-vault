@@ -529,4 +529,6 @@ pub enum VaultError {
     InsufficientLiquidity,
     #[msg("User card does not match the owner or vault")]
     InvalidUserCard,
+    #[msg("Cannot swap more than half of the vault's Mint A balance")]
+    SwapLimitExceeded,
 }

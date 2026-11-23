@@ -91,6 +91,10 @@ pub fn execute_swap<'a, 'b, 'c: 'info, 'info>(
 
     require!(amount_in <= available, VaultError::InsufficientLiquidity);
 
+    if to_second {
+        require!(amount_in <= before_base / 2, VaultError::SwapLimitExceeded);
+    }
+
     let mint = ctx.accounts.vault_state.token_mint;
     let bump = [ctx.accounts.vault_state.bump];
     let seeds: &[&[u8]] = &[b"vault", mint.as_ref(), &bump];

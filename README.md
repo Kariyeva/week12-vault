@@ -37,3 +37,19 @@ Vault из задания 10 дополнен вторым токеновым х
 ### Успешный обмен через Raydium
 
 ![Балансы и цена пула после обмена](screenshots/week12-swap.jpeg)
+
+## Лимит обмена: не более 50% Mint A
+
+При обмене Mint A → Mint B vault отклоняет запрос на сумму больше половины
+текущего баланса Mint A. Обратный обмен Mint B → Mint A этим лимитом не ограничен.
+
+Скрипт `scripts/06-check-swap-limit.cjs` проверил обе стороны границы
+в Devnet при балансе 89 Mint A:
+
+| Запрос | Результат симуляции |
+|---|---|
+| 44.5 Mint A (ровно 50%) | Обмен проходит |
+| 45 Mint A (больше 50%) | Отказ `SwapLimitExceeded` |
+
+Симуляции не отправляли транзакции и не меняли балансы.
+[Транзакция обновления программы](https://explorer.solana.com/tx/2yU6Qx7q5CjuSD4ovR3YPYm4o6Y3XxtopKwp2aidPmwa99MvaATVe6DSoxhzUYXUxPQnRBDhj7hvy5kSvaMpfMU1?cluster=devnet).
